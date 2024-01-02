@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8"></meta>
+    <title>JPG to PDF Converter</title>
+    <meta content="Effortlessly convert JPG files to high-quality PDF file with our user-friendly jpg to pdf Converter. Try it now for free!" name="description"></meta>
+    <meta content="jpg to pdf, jpg to pdf converter, how to convert jpg to pdf, jpg to pdf i love, jpg to pdf 200kb, jpg to pdf converter online free, ilove jpg to pdf, online convert jpg to pdf, online jpg to pdf, combine jpg to pdf, multiple jpg to pdf, jpg to pdf 300 kb,free convert jpg to pdf, jpg to pdf maker,combine jpg to pdf" name="keywords"></meta>
+    <meta content="iLovFreeTool" name="author"></meta>
+    <meta content="website" property="og:type"></meta>
+    <meta content="JPG to PDF Converter: Easily Convert JPG to PDF file" property="og:title"></meta>
+    <meta content="Effortlessly convert JPG to high-quality PDF file with our user-friendly JPG to PDF Converter. Try it now for free!" property="og:description"></meta>
+    <meta content="https://ilovfreetool.blogspot.com/2023/12/jpg-to-pdf-converter-fast-free-image.html" property="og:url"></meta>
+    <meta content="https://ilovfreetool.blogspot.com/2023/12/jpg-to-pdf-converter-fast-free-image.html" property="og:image"></meta>
+    <meta content="summary_large_image" property="twitter:card"></meta>
+    <meta content="JPG to PDF Converter: Easily Convert JPG to PDF file" property="twitter:title"></meta>
+    <meta content="Effortlessly convert JPG image to high-quality PDF file with our user-friendly JPG to PDF Converter. Try it now for free!" property="twitter:description"></meta>
+    <meta content="https://ilovfreetool.blogspot.com/2023/12/jpg-to-pdf-converter-fast-free-image.html" property="twitter:url"></meta>
+    <meta content="https://ilovfreetool.blogspot.com/2023/12/jpg-to-pdf-converter-fast-free-image.html" property="twitter:image"></meta>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #f3f3f3;
+      }
+      .converter-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: space-around;
+        text-align: center;
+        margin: 50px auto;
+        max-width: 50%;
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      }
+      h1 {
+        color: #333;
+      }
+      input[type="file"] {
+        display: block;
+        margin: 20px auto;
+        padding: 10px;
+        border-radius: 5px;
+        border: 2px solid #ccc;
+        outline: none;
+      }
+      button {
+        padding: 12px 20px;
+        border: none;
+        background-color: #4caf50;
+        color: white;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+      }
+      button:hover {
+        background-color: #45a049;
+      }
+      #downloadLink {
+        font-weight: 600;
+        background-color: rgb(240, 148, 36);
+        padding: 10px 0;
+        margin: 10px 0;
+        color: #fff;
+        width: 200px;
+        border-radius: 10px;
+      }
+      #downloadLink:hover {
+        background-color: rgb(223, 140, 39);
+      }
+      a {
+        display: none;
+        margin-top: 10px;
+        text-decoration: none;
+        color: #333;
+        font-weight: bold;
+      }
+      .output {
+        margin-top: 20px;
+        font-weight: bold;
+      }
+      @keyframes shake {
+        0% {
+          transform: translateX(0);
+        }
+        25% {
+          transform: translateX(-5px);
+        }
+        50% {
+          transform: translateX(5px);
+        }
+        75% {
+          transform: translateX(-5px);
+        }
+        100% {
+          transform: translateX(0);
+        }
+      }
+      .shake {
+        animation: shake 0.5s ease-in-out;
+      }
+      @media screen and (max-width: 768px) {
+        .converter-container {
+          max-width: 90%;
+        }
+      }
+      @media screen and (max-width: 480px) {
+        .converter-container {
+          max-width: 95%;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="converter-container">
+      <h1>JPG to PDF Converter</h1>
+      <input type="file" accept="image/jpeg" id="fileInput" />
+      <button onclick="convertToPDF()">Convert to PDF</button>
+      <a
+        href="#"
+        id="downloadLink"
+        download="converted.pdf"
+        style="display: none"
+        >Download PDF</a
+      >
+      <div id="output" class="output"></div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/pdf-lib@1.16.0/dist/pdf-lib.js"></script>
+    <script>
+      async function convertToPDF() {
+        const fileInput = document.getElementById("fileInput");
+        const output = document.getElementById("output");
+        const downloadLink = document.getElementById("downloadLink");
+
+        if (fileInput.files.length === 0) {
+          output.textContent = "Please select an image file.";
+          output.style.color = "red";
+          return;
+        }
+        const file = fileInput.files[0];
+        if (file.type !== "image/jpeg") {
+          output.textContent = "Please select a JPG image.";
+          output.style.color = "red";
+          return;
+        }
+        const reader = new FileReader();
+        reader.onload = async function (event) {
+          const imgData = event.target.result;
+          const img = new Image();
+          img.src = imgData;
+          img.onload = async function () {
+            const pdfDoc = await PDFLib.PDFDocument.create();
+            const page = pdfDoc.addPage([img.width, img.height]);
+            const jpgImage = await pdfDoc.embedJpg(imgData);
+            const { width, height } = jpgImage.scale(1);
+            page.drawImage(jpgImage, {
+              x: 0,
+              y: 0,
+              width: width,
+              height: height,
+            });
+            const pdfBytes = await pdfDoc.save();
+            const pdfOutput = URL.createObjectURL(
+              new Blob([pdfBytes], { type: "application/pdf" })
+            );
+            downloadLink.href = pdfOutput;
+            downloadLink.style.display = "block";
+            output.textContent = "Image converted to PDF!";
+            output.style.color = "green";
+          };
+        };
+        reader.readAsDataURL(file);
+
+        downloadLink.classList.add("shake");
+      }
+    </script>
+  </body>
+</html>
